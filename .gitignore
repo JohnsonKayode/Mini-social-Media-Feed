@@ -1,0 +1,79 @@
+# --- Python basics ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.pyd
+*.dll
+
+# --- Environments ---
+.env
+.env.*
+.venv/
+venv/
+ENV/
+env/
+.python-version
+
+# --- Packaging / build ---
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+*.whl
+
+# --- Testing / coverage ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# --- Type checkers / linters ---
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# --- Logs & runtime ---
+*.log
+logs/
+celerybeat-schedule
+celerybeat.pid
+instance/
+*.pid
+
+# --- Framework specifics (optional/common) ---
+# Django
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Flask
+*.db
+*.sqlite
+
+# FastAPI / Uvicorn (if you save logs)
+uvicorn*.log
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# --- Docker / Compose (if generated locally) ---
+docker-data/
+**/.dockerignore-local
+
+# --- Jupyter / notebooks (if any) ---
+.ipynb_checkpoints/
+*.ipynb_convert/
