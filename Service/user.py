@@ -9,12 +9,12 @@ from fastapi import status
 
 class UserService:
     @staticmethod
-    def get_all_users(user_db = Session):
+    def get_all_users(user_db : Session):
         users = user_db.query(UserT).all()
         return users
     
     @staticmethod
-    def get_user_by_id(user_id: uuid, user_db: Session):
+    def get_user_by_id(user_id: UUID, user_db: Session):
         user = user_db.query(UserT).filter(UserT.id == str(user_id)).first()
         return user
     
