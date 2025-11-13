@@ -11,6 +11,7 @@ class UserT(Base):
     full_name = Column(String, nullable=False)  
     email = Column(String, unique=False, nullable=False)
     bio = Column(String, default=None)
+    created_at = Column(String, nullable=False)
 
 
 class PostT(Base):
@@ -21,3 +22,4 @@ class PostT(Base):
     user_id = Column(String, ForeignKey("user.id"), nullable=False)
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)
+    created_at = Column(String, nullable=False)

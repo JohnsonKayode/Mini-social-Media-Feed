@@ -2,19 +2,13 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-import os
 
-from uvicorn import Config
-from model import Base
-import sqlalchemy
-from dotenv import load_dotenv
 from alembic import context
+import model
 
-load_dotenv()
-
-config = context.config
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -25,14 +19,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-import model
-target_metadata = Base.metadata
-
-sqlalchemy_url = os.getenv("POSTGRESQL_DATABASE_URL")
-if sqlalchemy_url is None:
-    raise ValueError("DATABASE_URL environment variable not set")
-
-config.set_main_option("sqlalchemy.url", sqlalchemy_url)
+target_metadata = model.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
