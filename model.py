@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from database import Base
+from sqlalchemy.orm import relationship
 
 
 class UserT(Base):
@@ -13,6 +14,8 @@ class UserT(Base):
     bio = Column(String, default=None)
     created_at = Column(String, nullable=False)
 
+    posts = relationship("PostT", back_populates="user")
+
 
 class PostT(Base):
     
@@ -22,4 +25,6 @@ class PostT(Base):
     user_id = Column(String, ForeignKey("user.id"), nullable=False)
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)
-    created_at = Column(String, nullable=False)
+    # created_at = Column(String, nullable=False)
+
+    user = relationship("UserT", back_populates="posts")

@@ -41,7 +41,7 @@ def get_posts_by_user_id(user_id: UUID, post_db: Session = Depends(get_db)):
     posts = post_service.get_posts_by_user_id(user_id, post_db)
     return posts
 
-@post_router.get("/posts/{user_id}", response_model=UserResponse)
-def get_user_and_posts(user_id: UUID, db: Session = Depends(get_db)):
-    user = post_service.get_user_details_and_posts(user_id, db)
-    return user
+@post_router.get("/user/posts{user_id}")
+def get_user_details_and_posts(user_id: UUID, db: Session = Depends(get_db)):
+    details = post_service.get_user_and_posts(user_id, db)
+    return details

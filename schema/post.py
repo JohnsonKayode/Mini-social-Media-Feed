@@ -1,9 +1,12 @@
 from pydantic import BaseModel, Field
 from uuid import UUID
+from datetime import datetime
+import datetime
 
 class postbase(BaseModel):
     title: str = Field(..., description="tittle of the post")
     content: str = Field(..., description="content of the post")
+    # created_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow, description="Time the post was created")
     class Config:
         orm_mode = True
 

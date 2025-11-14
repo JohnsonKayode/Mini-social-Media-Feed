@@ -62,15 +62,18 @@ class PostService:
         return posts
     
     @staticmethod
-    def get_user_details_and_posts(user_id: UUID, db: Session):
-        user = db.query(UserT).filter(UserT.id == str(user_id)).first()
-        if user:
-            posts = db.query(PostT).filter(PostT.user_id == str(user_id)).all()
-            return {
-                "user": user,
-                "posts": posts
-            }
-        return {"error": "User not found"}
+    def get_user_and_posts(user_id: UUID, db: Session):
+        user = user_service.get_user_by_id(user_id, db)
+        if not user:
+            return {"error": "User not found"}
+        posts = post_service.get_posts_by_user_id(user_id, db)
+        if not posts:
+            return {"error": "No posts found for this user"}
+        return {
+            "user": user.full_name,
+            "posts": posts
+        }
+        
 
 
 post_service = PostService()
