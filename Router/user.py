@@ -36,9 +36,7 @@ def update_user(user_id: UUID, Updateuser: UserUpdate,  user_db: Session = Depen
 
 
 @user_router.delete("/users/{user_id}")
-def delete_user(user_id: UUID):
-    if user_id in user_db:
-        user_db.pop(user_id)
-        return {"message": "user deleted successfully"}
-    return {"error": "user not found"}
+def delete_user(user_id: UUID, user_db: Session = Depends(get_db)):
+    details = user_service.delete_user(user_id, user_db)
+    return details
             

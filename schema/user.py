@@ -8,15 +8,23 @@ from uuid import UUID
 class UserBase(BaseModel):
     username: str = Field(..., description="Username of the user")
     email: EmailStr = Field(..., description="Email address of the user")
+    hashed_password: str = Field(..., description="Password for the user account")
     full_name: str = Field(..., description="Full name of the user")
-    password: str = Field(..., description="Password for the user account")
     bio: str = Field(None, description="Short biography of the user")
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow, description="Time the user was created")
+    is_active: bool = Field(default=True, description="Indicates if the user is active")
+    
     class Config:
         orm_mode = True
 
 class User(UserBase):
     id: UUID = Field(..., description="Unique identifier for the user")
+    class Config:
+        orm_mode = True
+
+class UserLogin(BaseModel):
+    email: EmailStr = Field(..., description="Email address of the user")
+    hashed_password: str = Field(..., description="Password for the user account")
     class Config:
         orm_mode = True
 
@@ -34,7 +42,12 @@ class UserUpdate(BaseModel):
         orm_mode = True
 
 class UserResponse(BaseModel):
-    users : List[UserBase] = []
-    posts: List[postbase] = []
+    username: str
+    email: EmailStr
+    full_name: str
+    bio: str
+    is_active: bool
+
     class Config:
         orm_mode = True
+        from_attributes = True

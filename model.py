@@ -10,12 +10,13 @@ class UserT(Base):
     id = Column(String, primary_key=True, index=True)
     username = Column(String, nullable=False)
     full_name = Column(String, nullable=False)
-    password = Column(String, nullable=False)
+    hashed_password = Column(String, nullable=False)
     email = Column(String, unique=False, nullable=False)
     bio = Column(String, default=None)
     created_at = Column(String, nullable=False)
+    is_active = Column(Boolean, default=True)
 
-    posts = relationship("PostT", back_populates="user")
+    posts = relationship("PostT", back_populates="user", cascade="all, delete")
 
 
 class PostT(Base):
