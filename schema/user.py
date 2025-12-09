@@ -22,6 +22,25 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+class UserAUthCreate(BaseModel):
+    email: EmailStr = Field(..., description="Email address of the user")
+    hashed_password: str = Field(..., description="Password for the user account")
+
+    class Config:
+        orm_mode = True
+
+class User1(UserAUthCreate):
+    id: UUID = Field(..., description="Unique identifier for the user")
+    class Config:
+        orm_mode = True
+
+class UserAuthLogin(BaseModel):
+    email: EmailStr = Field(..., description="Email address of the user")
+    hashed_password: str = Field(..., description="Password for the user account")
+
+    class Config:
+        orm_mode = True
+
 class UserLogin(BaseModel):
     email: EmailStr = Field(..., description="Email address of the user")
     hashed_password: str = Field(..., description="Password for the user account")

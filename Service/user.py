@@ -3,8 +3,8 @@ from schema.user import UserCreate, UserUpdate, UserResponse, User, UserBase
 from uuid import UUID, uuid4
 from model import UserT
 from sqlalchemy.orm import Session
-from fastapi import status
-from auth import verify_password
+from fastapi import status, HTTPException
+from auth import verify_password, pwd_context
 
 
 
@@ -30,8 +30,11 @@ class UserService:
     
 
     @staticmethod
-    def create_user(createUser:UserCreate, user_db: Session) -> UserResponse:
-        user = UserT(id = str(uuid.uuid4()), **createUser.model_dump())
+    def create_user(createUser:UserBase, user_db: Session):
+        details = user_db.query(UserT).filter(UserT.email == createUser.email).first()
+        if details:
+            raise HTTPException(status_code=400, detail="Email already registered")
+        user = UserT(id = str(uuid.uuid4()), **createUser.model_dump(exclude={"hashed_password"}), hashed_password = pwd_context.hash(createUser.hashed_password))
         user_db.add(user)
         user_db.commit()
         user_db.refresh(user)

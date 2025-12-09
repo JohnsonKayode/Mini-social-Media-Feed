@@ -4,12 +4,10 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm, HT
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
-from datetime import datetime, timedelta
-from database import get_db
+from database import get_db, engine, Base
 from model import UserT
 from typing import Optional
 from schema.auth_schema import TokenData
-# from Service.user import user_service
 import os
 
 load_dotenv()
@@ -19,9 +17,9 @@ token_expires = int(os.getenv("TOKEN_EXPIRES", 30))
 algorithm = os.getenv("ALGORITHM")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-# security = HTTPBearer()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
+Base.metadata.create_all(bind=engine)
 
 def verify_password(plain_password: str, hash_password: str) -> bool:
     pwd = pwd_context.verify(plain_password, hash_password)
@@ -30,18 +28,6 @@ def verify_password(plain_password: str, hash_password: str) -> bool:
 def get_pwd_hash(password: str) -> str:
     pwd = pwd_context.hash(password)
     return pwd
-
-def create_access_token(data: dict, expires_delta:Optional[timedelta]=None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=token_expires)
-
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=algorithm)
-    return encoded_jwt
-    
 
 def verify_token(token: str) -> TokenData:
     """Verify JWT token and return token data"""
@@ -60,7 +46,7 @@ def verify_token(token: str) -> TokenData:
             detail=f"Invalid token: {str(e)}"
         )
     
-def authenticate_user(db: Session, email: str, password: str):
+def authenticate_user(email: str, password: str, db: Session,):
     user = db.query(UserT).filter(UserT.email == email).first()
     if not user:
         return False
