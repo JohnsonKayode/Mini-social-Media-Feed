@@ -34,3 +34,8 @@ User registration and user-related routes
 Post creation with file handling
 Feed listing and user filter
 Like functionality and counters
+
+
+
+Email for test: test123@example.com
+password: test123
